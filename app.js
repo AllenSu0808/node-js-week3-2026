@@ -1,10 +1,10 @@
-const express = require('express');
-const cors = require('cors');
-const swaggerUi = require('swagger-ui-express');
+const express = require("express");
+const cors = require("cors");
+const swaggerUi = require("swagger-ui-express");
 
-const membersRouter = require('./routes/members');
-const uploadImageRouter = require('./routes/uploadImage');
-const swaggerDoc = require('./fixtures/swagger.json');
+const membersRouter = require("./routes/members");
+const uploadImageRouter = require("./routes/uploadImage");
+const swaggerDoc = require("./fixtures/swagger.json");
 
 const app = express();
 
@@ -23,6 +23,10 @@ const app = express();
 //
 // ⚠️ **最後不需呼叫 app.listen()** — 這個部分交由 server.js 負責（分離「組裝」跟「啟動」，這樣 test.js 可以 supertest 直接戳 app、不佔 port）。
 
-app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
+app.use(cors());
+app.use(express.json());
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDoc));
+app.use("/members", membersRouter);
+app.use("/uploadImage", uploadImageRouter);
 
 module.exports = app;
